@@ -1,6 +1,6 @@
 # Alibaba-Tianchi-competition-cervical-cancer-cell-detection
 复赛 semi-final 小队：腌制九九八十一天的草履虫
-
+### v0: Faster RCNN + ResNet50 + FPN
 - v0.7: training...
 
 - v0.6: mAP 0.175 (train AP 0.435 in 11 classes, 0.581 in 6 classes)
