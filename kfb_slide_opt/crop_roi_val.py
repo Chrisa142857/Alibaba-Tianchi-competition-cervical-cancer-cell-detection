@@ -188,7 +188,8 @@ def csv2coco(csv_fn, classname_to_id):
             scale_part = get_scale_part_11cls(max([w,h]))
         elif len(classname_to_id) == 16:
             scale_part = get_scale_part_16cls(max([w,h]))
-        
+            if line[4] == 'Trichomonas':
+                scale_part = '1'
         annotation = {}
         annotation['id'] = ann_id
         annotation['image_id'] = int(line[5])
@@ -332,8 +333,8 @@ test_topleft, test_imgid2name = topleft, imgid2name
 print()
 print('Num of test Images: '+str(len(test_topleft)))
 print()
-csv_fn = gen_csv(dataIds, test_path, test_dir, idi, test_topleft, test_imgid2name)
-#csv_fn = '/home/admin/jupyter/zxy/label_roival.csv'
+#csv_fn = gen_csv(dataIds, test_path, test_dir, idi, test_topleft, test_imgid2name)
+csv_fn = '/home/admin/jupyter/zxy/label_roival.csv'
 json_fn_6cls = 'instances_roival2017_6cls.json'
 json_fn_11cls = 'instances_roival2017_11cls.json'
 json_fn_16cls = 'instances_roival2017_16cls.json'
@@ -354,12 +355,15 @@ gen_json(ann_dir, annotations_16cls, test_imgid2name, categories_16cls, json_fn_
 #################
 ## roival2017 ##
 #################
-exit()
+
 cp = [i for i in range(0,len(test_topleft),int(len(test_topleft)/8))]
-cp[-1] = len(test_topleft)
+if len(cp) != 8: 
+    cp[-1] = len(test_topleft)
+else:
+    cp.append(len(test_topleft))
 threads = []
 
-for i in range(8):
+for i in range(len(cp)-1):
     th = myProcess(i+1, "Process-"+str(i+1), test_path, test_dir, list(test_topleft.keys())[cp[i]:cp[i+1]], test_topleft, test_imgid2name)
     threads.append(th)
 for thread in threads:
